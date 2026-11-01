@@ -13,6 +13,7 @@ tests hors ligne reproductibles avec **faustprobe**.
 Depuis ce dossier :
 
 ```sh
+make help                      # aide ; make seul affiche également cette liste
 make demo                      # renders/aether-demo*.wav, 20 s, preset nebula
 make demo PRESET=crystal_sequence SECONDS=24
 make test                      # test-results/summary.json et résultats détaillés
