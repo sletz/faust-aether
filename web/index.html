@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101817"><title>Aether — Hybrid instrument</title>
@@ -8,36 +8,36 @@
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="./" aria-label="Aether accueil"><span class="logo">Æ</span><span>AETHER<small>HYBRID INSTRUMENT / 01</small></span></a>
-  <div class="top-actions"><span id="engine-status" class="status">Moteur en veille</span><button id="audio-toggle" class="primary">Activer l’audio <span>↗</span></button></div>
+  <a class="brand" href="./" aria-label="Aether home"><span class="logo">Æ</span><span>AETHER<small>HYBRID INSTRUMENT / 01</small></span></a>
+  <div class="top-actions"><span id="engine-status" class="status">Engine idle</span><button id="audio-toggle" class="primary">Enable audio <span>↗</span></button></div>
 </header>
 <main class="studio">
   <aside class="library">
     <div class="section-label"><span>01 / SOUND LIBRARY</span><span id="preset-count">06</span></div>
-    <h1>Une matière.<br>Des univers.</h1><p class="aside-intro">Trois moteurs de synthèse.<br>Un espace sans frontières.</p>
+    <h1>One instrument.<br>Many worlds.</h1><p class="aside-intro">Three synthesis engines.<br>A space without boundaries.</p>
     <div id="preset-list" class="preset-list" aria-label="Presets"></div>
-    <div class="library-bottom"><span class="tiny-led"></span><span>Faust · WebAssembly<br><small>Le son est synthétisé en direct.</small></span></div>
+    <div class="library-bottom"><span class="tiny-led"></span><span>Faust · WebAssembly<br><small>Sound is synthesized live.</small></span></div>
   </aside>
   <div class="instrument">
     <section class="patch-header">
-      <div><div class="eyebrow">CURRENT PATCH <span id="modified" hidden>MODIFIÉ</span></div><h2 id="patch-name">Nebula</h2><p id="patch-description">Une nappe lente, lumineuse et infiniment spatiale.</p></div>
-      <div class="patch-actions"><button id="play-demo" class="ghost">▶ Jouer un accord</button><button id="reset-patch" class="icon-button" aria-label="Réinitialiser le preset" title="Réinitialiser le preset">↺</button></div>
+      <div><div class="eyebrow">CURRENT PATCH <span id="modified" hidden>MODIFIED</span></div><h2 id="patch-name">Nebula</h2><p id="patch-description">A slow, luminous pad with an expansive sense of space.</p></div>
+      <div class="patch-actions"><button id="play-demo" class="ghost">▶ Play a chord</button><button id="reset-patch" class="icon-button" aria-label="Reset preset" title="Reset preset">↺</button></div>
     </section>
-    <section class="display-panel" aria-label="Moniteur audio">
+    <section class="display-panel" aria-label="Audio monitor">
       <div class="scope-label"><span><i class="tiny-led"></i> SIGNAL / LIVE</span><span id="scope-mode">STEREO</span></div>
-      <canvas id="scope" width="1000" height="150" aria-label="Oscilloscope du son de sortie"></canvas>
-      <div class="telemetry"><div><small>VOIX ACTIVES</small><b id="voices-stat">0 <em>/ 4</em></b></div><div><small>FRÉQUENCE</small><b id="rate-stat">— <em>kHz</em></b></div><div><small>CHARGE AUDIO</small><b id="load-stat">— <em>%</em></b></div><div class="level-cell"><small>NIVEAU DE SORTIE</small><div class="meter"><span id="level-meter"></span></div></div></div>
+      <canvas id="scope" width="1000" height="150" aria-label="Output waveform oscilloscope"></canvas>
+      <div class="telemetry"><div><small>ACTIVE VOICES</small><b id="voices-stat">0 <em>/ 4</em></b></div><div><small>SAMPLE RATE</small><b id="rate-stat">— <em>kHz</em></b></div><div><small>AUDIO LOAD</small><b id="load-stat">— <em>%</em></b></div><div class="level-cell"><small>OUTPUT LEVEL</small><div class="meter"><span id="level-meter"></span></div></div></div>
     </section>
-    <nav id="tabs" class="tabs" aria-label="Sections de synthèse"></nav>
+    <nav id="tabs" class="tabs" aria-label="Synthesis sections"></nav>
     <section id="control-panel" class="control-panel" aria-live="polite"></section>
     <section class="keyboard-section">
-      <div class="keyboard-toolbar"><div class="section-label">03 / PERFORMANCE</div><div class="performance-options"><label>Octave <button id="octave-down" class="small-button" aria-label="Octave inférieure">−</button><output id="octave">3</output><button id="octave-up" class="small-button" aria-label="Octave supérieure">+</button></label><label>Voix <select id="polyphony"><option>4</option><option>8</option><option>12</option></select></label><button id="midi-connect" class="small-button">MIDI</button><button id="panic" class="small-button">Tout arrêter</button></div></div>
-      <div id="keyboard" class="keyboard" aria-label="Clavier de piano virtuel"></div>
-      <div class="keyboard-help"><span>Jouez avec la souris, le tactile ou les touches <b>A W S E D F T G Y H U J K</b>.</span><span id="midi-status">MIDI non connecté</span></div>
+      <div class="keyboard-toolbar"><div class="section-label">03 / PERFORMANCE</div><div class="performance-options"><label>Octave <button id="octave-down" class="small-button" aria-label="Lower octave">−</button><output id="octave">3</output><button id="octave-up" class="small-button" aria-label="Higher octave">+</button></label><label>Voices <select id="polyphony"><option>4</option><option>8</option><option>12</option></select></label><button id="midi-connect" class="small-button">MIDI</button><button id="panic" class="small-button">Stop all</button></div></div>
+      <div id="keyboard" class="keyboard" aria-label="Virtual piano keyboard"></div>
+      <div class="keyboard-help"><span>Play with a mouse, touch, or the keys <b>A W S E D F T G Y H U J K</b>.</span><span id="midi-status">MIDI disconnected</span></div>
     </section>
-    <p id="feedback" class="feedback" role="status">Activez l’audio, puis jouez. Aucun microphone n’est utilisé.</p>
+    <p id="feedback" class="feedback" role="status">Enable audio, then play. No microphone is used.</p>
   </div>
 </main>
-<footer><span>AETHER <i>×</i> FAUST</span><span>Synthèse soustractive · FM · additive · effets stéréo</span><a href="../README.md" target="_blank" rel="noopener">Notes du projet ↗</a></footer>
+<footer><span>AETHER <i>×</i> FAUST</span><span>Subtractive · FM · additive synthesis · stereo effects</span><a href="../README.md" target="_blank" rel="noopener">Project notes ↗</a></footer>
 <script type="module" src="app.js"></script>
 </body></html>

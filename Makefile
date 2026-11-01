@@ -10,25 +10,25 @@ SECONDS ?= 20
 
 help:
 	@printf '%s\n' \
-	  'Aether — synthétiseur hybride en Faust' \
+	  'Aether — hybrid synthesizer in Faust' \
 	  '' \
-	  'Commandes :' \
-	  '  make help       Afficher cette aide (également la cible par défaut)' \
-	  '  make demo       Générer une démo WAV et sa copie PCM16 pour écoute' \
-	  '  make params     Afficher les paramètres des voix' \
-	  '  make test       Tester le DSP avec faustprobe et exporter C++/Rust' \
-	  '  make web        Compiler les modules WebAssembly avec faust-rs' \
-	  '  make web-check  Comparer le WASM à faustprobe et tester les presets web' \
-	  '  make web-serve  Servir l’interface sur http://127.0.0.1:$(PORT)/web/' \
-	  '  make cpp        Exporter les classes DSP C++ dans generated/' \
-	  '  make rust       Exporter les classes DSP Rust dans generated/' \
-	  '  make clean      Supprimer generated/ et test-results/' \
+	  'Commands:' \
+	  '  make help       Show this help (also the default target)' \
+	  '  make demo       Render a WAV demo and its PCM16 listening copy' \
+	  '  make params     List voice parameters' \
+	  '  make test       Test the DSP with faustprobe and export C++/Rust' \
+	  '  make web        Compile WebAssembly modules with faust-rs' \
+	  '  make web-check  Compare WASM against faustprobe and test web presets' \
+	  '  make web-serve  Serve the interface at http://127.0.0.1:$(PORT)/web/' \
+	  '  make cpp        Export C++ DSP classes to generated/' \
+	  '  make rust       Export Rust DSP classes to generated/' \
+	  '  make clean      Remove generated/ and test-results/' \
 	  '' \
-	  'Options :' \
+	  'Options:' \
 	  '  PRESET=$(PRESET)  SECONDS=$(SECONDS)  PORT=$(PORT)  WEB_PRECISION=$(WEB_PRECISION)' \
 	  '  FAUST=$(FAUST)  FAUSTPROBE=$(FAUSTPROBE)  FAUSTRS=$(FAUSTRS)  PYTHON=$(PYTHON)' \
 	  '' \
-	  'Exemples :' \
+	  'Examples:' \
 	  '  make demo PRESET=glass SECONDS=12' \
 	  '  make web-serve PORT=8090' \
 	  '  make -B web WEB_PRECISION=-double'

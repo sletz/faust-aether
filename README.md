@@ -1,66 +1,66 @@
-# Aether — synthétiseur hybride en Faust
+# Aether — hybrid synthesizer in Faust
 
-Un instrument polyphonique ambitieux, entièrement écrit en Faust : synthèse
-soustractive, FM à quatre opérateurs, synthèse additive, modulation en matrice,
-séquenceur 16 pas et bus d'effets stéréo. Aucun échantillon ni plugin externe.
-Le projet fournit les sources, six presets, un rendu de démonstration et des
-tests hors ligne reproductibles avec **faustprobe**.
+An ambitious polyphonic instrument written entirely in Faust: subtractive
+synthesis, four-operator FM, additive synthesis, a modulation matrix,
+a 16-step sequencer, and a stereo effects bus. No samples or external plugins.
+The project includes source code, six presets, demo renders, and reproducible
+offline tests with **faustprobe**.
 
-![Interface web d’Aether avec les presets, les réglages de synthèse et le clavier virtuel](docs/images/aether-interface.jpg)
+![Aether web interface with presets, synthesis controls, and a virtual keyboard](docs/images/aether-interface.jpg)
 
-## Écouter et tester
+## Listen and test
 
-Depuis ce dossier :
+From this directory:
 
 ```sh
-make help                      # aide ; make seul affiche également cette liste
-make demo                      # renders/aether-demo*.wav, 20 s, preset nebula
+make help                      # help; running make alone shows the same list
+make demo                      # renders/aether-demo*.wav, 20 seconds, nebula preset
 make demo PRESET=crystal_sequence SECONDS=24
-make test                      # test-results/summary.json et résultats détaillés
-make params                    # contrôles de chaque voix
-faustprobe --double -I . --list-params effects.dsp # contrôles du bus partagé
+make test                      # test-results/summary.json and detailed results
+make params                    # per-voice controls
+faustprobe --double -I . --list-params effects.dsp # shared effect bus controls
 ```
 
-Prérequis : `faust`, ses bibliothèques standard, `faustprobe` et Python 3.
-Les scripts Python utilisent uniquement la bibliothèque standard. Le rendu brut est
-un WAV float64 ; une copie `*-preview.wav`, en PCM16 normalisée à −1 dBFS,
-est également produite pour une écoute facile. Cette normalisation intervient
-après les mesures de faustprobe et ne fait pas partie du DSP.
+Requirements: `faust`, its standard libraries, `faustprobe`, and Python 3.
+The Python scripts only use the standard library. The raw render is a float64
+WAV; a `*-preview.wav` copy in PCM16, normalized to −1 dBFS, is also produced
+for convenient listening. Normalization happens after faustprobe measurements
+and is not part of the DSP.
 
 ```sh
 make test FAUST=/usr/local/bin/faust FAUSTPROBE=/usr/local/bin/faustprobe
-# Autre moteur disponible sur cette machine :
+# Alternative engine available on the development machine:
 make test FAUST=/Users/letz/faust/build/bin/faust \
   FAUSTPROBE=/Users/letz/faust/tools/faustprobe/faustprobe
 ```
 
-Le test d'identité demande un compilateur dont `--version` expose
-`Source commit:`. Le rapport archive aussi le SHA-256 des exécutables, car
-faustprobe ne fournit pas lui-même de ligne `Source commit:`.
+The identity check requires a compiler whose `--version` output includes
+`Source commit:`. The report also records executable SHA-256 hashes because
+faustprobe does not expose its own `Source commit:` line.
 
-## Jouer en temps réel
+## Play in real time
 
-L'instrument principal expose les contrôles Faust conventionnels `freq`,
-`gain` et `gate`. Un hôte polyphonique alloue les voix et additionne leurs deux
-sorties. La définition `effect` s'exécute ensuite **une seule fois** sur ce mix.
-Les métadonnées demandent 12 voix ; un hôte peut choisir une autre polyphonie.
+The main instrument exposes the conventional Faust controls `freq`, `gain`,
+and `gate`. A polyphonic host allocates voices and sums their two outputs.
+The `effect` definition then runs **once** on that mix. Metadata requests
+12 voices; a host may choose a different voice count.
 
-Pour une application CoreAudio/Qt/MIDI sur macOS, si ses dépendances sont installées :
+For a CoreAudio/Qt/MIDI application on macOS, with the required dependencies:
 
 ```sh
 faust2caqt -midi -nvoices 12 -effect auto aether.dsp
 ```
 
-Pour une audition autonome sans clavier, `audition.dsp` réunit une voix
-régulièrement déclenchée et les effets. Elle démarre immédiatement.
-Activer `sequencer` pour faire varier la hauteur. Pour un rendu hors ligne :
+For a standalone audition without a keyboard, `audition.dsp` combines a
+regularly retriggered voice with the effects. It starts immediately.
+Enable `sequencer` to vary its pitch. To render offline:
 
 ```sh
 faustprobe --double -I . --in zero --set sequencer=1 \
   -n 480000 --sr 48000 --out renders/sequence.wav audition.dsp
 ```
 
-Exemple d'accord polyphonique (notes MIDI, positions en échantillons) :
+A polyphonic chord example (MIDI pitches, positions measured in samples):
 
 ```sh
 faustprobe --double -I . --in zero --nvoices 12 \
@@ -69,68 +69,68 @@ faustprobe --double -I . --in zero --nvoices 12 \
   --out renders/chord.wav aether.dsp
 ```
 
-`aether.dsp` exécuté directement en mode monophonique produit la voix sèche.
-L'hôte doit extraire `effect`, ou utiliser `audition.dsp`, pour entendre le bus.
-`effects.dsp` expose ce même bus en insert autonome à deux entrées/deux sorties.
+Running `aether.dsp` directly in monophonic mode produces the dry voice.
+The host must extract `effect`, or use `audition.dsp`, to hear the effect bus.
+`effects.dsp` exposes the same bus as a standalone two-input/two-output insert.
 
-## Architecture sonore
+## Sound architecture
 
 ```text
-MIDI freq / gain / gate → transposition du séquenceur + matrice
-    ├─ 7 voix d'unisson, chacune saw ↔ pulse/PWM ↔ triangle
-    ├─ FM/PM 4 opérateurs, interpolation chaîne série / paires parallèles
-    ├─ 12 partiels additifs, pente spectrale + étirement inharmonique
-    └─ sinus sous-octave + bruit rose
-  → wavefolder + saturation + modulation en anneau
-  → morphing ladder Moog / passe-bande / passe-haut résonants
-  → ADSR d'amplitude + vélocité + panoramique → sorties stéréo de la voix
+MIDI freq / gain / gate → sequencer transposition + modulation matrix
+    ├─ 7 unison oscillators, each morphing saw ↔ pulse/PWM ↔ triangle
+    ├─ 4-operator FM/PM, interpolating a serial chain and parallel carriers
+    ├─ 12 additive partials with spectral tilt and inharmonic stretching
+    └─ sub-octave sine + pink noise
+  → wavefolder + saturation + ring modulation
+  → morphing resonant Moog ladder / band-pass / high-pass filters
+  → amplitude ADSR + velocity + panning → stereo voice outputs
 
-Somme des voix → chorus 3 taps/canal → phaser 4 cellules
-  → délai ping-pong filtré et saturé → réverbération Zita
-  → largeur mid/side → compression stéréo liée
-  → EQ grave/aigu + rejet DC + volume + soft clip borné à ±0,92
+Summed voices → 3-tap/channel chorus → 4-section phaser
+  → filtered, saturated ping-pong delay → Zita reverb
+  → mid/side width → linked stereo compression
+  → bass/treble EQ + DC rejection + volume + soft clip bounded to ±0.92
 ```
 
-Le chorus lit des retards fractionnaires modulés et déphasés. Le ping-pong
-croise ses deux retours avec amortissement et saturation dans la boucle.
-Sa durée suit le tempo, jusqu'à deux temps. Zita emploie des durées de
-réverbération différentes dans le grave et le médium.
+The chorus uses modulated fractional delays with offset phases. Ping-pong
+cross-feeds its two feedback paths through damping and saturation.
+Its duration follows the tempo, up to two beats. Zita uses different decay
+times for the bass and midrange.
 
-Les fonctions des bibliothèques standard sont utilisées pour les oscillateurs
-à alias atténué, enveloppes, filtres, phaser, compresseur et réverbération.
-La FM forte, le wavefolding et la saturation peuvent produire de l'aliasing :
-le projet n'implémente pas de suréchantillonnage. Les bornes de fréquence et les
-fondus de partiels limitent les fréquences élevées sans prétendre l'éliminer.
+Standard-library functions provide the oscillators with attenuated aliasing,
+envelopes, filters, phaser, compressor, and reverb. Strong FM, wavefolding,
+and saturation can introduce aliasing: this project does not implement
+oversampling. Frequency ceilings and partial fades limit high-frequency
+content without claiming to eliminate aliasing.
 
-## Matrice de modulation
+## Modulation matrix
 
-Huit routes : `Voice/Modulation/Route_0` à `Route_7`. Chaque route possède
-`source`, `destination` et `depth` (−1 à +1). Les contributions s'additionnent.
-Les deux premières routes sont actives par défaut : LFO1 vers le filtre,
-LFO2 vers une légère modulation de hauteur.
+Eight routes: `Voice/Modulation/Route_0` through `Route_7`. Each has `source`,
+`destination`, and `depth` (−1 to +1). Contributions are summed.
+The first two routes are active by default: LFO1 to the filter and LFO2
+to a subtle pitch modulation.
 
 | Source | Signal |
 | --- | --- |
-| 0 | Désactivée |
-| 1 | LFO1 sinus, 0,01–25 Hz |
-| 2 | LFO2 triangle, 0,01–30 Hz |
-| 3 | ADSR du filtre |
-| 4 | Enveloppe de modulation percussive |
-| 5 | Vélocité transformée en −1…+1 |
-| 6 | Transposition du séquenceur divisée par 72 |
+| 0 | Disabled |
+| 1 | Sine LFO1, 0.01–25 Hz |
+| 2 | Triangle LFO2, 0.01–30 Hz |
+| 3 | Filter ADSR |
+| 4 | Percussive modulation envelope |
+| 5 | Velocity mapped to −1…+1 |
+| 6 | Sequencer transposition divided by 72 |
 | 7 / 8 | Macro1 / Macro2 |
 
-| Destination | Échelle pour une contribution de +1 |
+| Destination | Scale for a contribution of +1 |
 | --- | --- |
-| 0 | Désactivée |
-| 1 | Hauteur : +12 demi-tons |
-| 2 | Filtre : +4 octaves |
-| 3 | Indice FM : +8 |
-| 4 | Morphing oscillateur : +1 |
-| 5 | Panoramique : déplacement vers la droite |
-| 6 | Amplitude : multiplicateur 1 + modulation, borné à 0…2 |
+| 0 | Disabled |
+| 1 | Pitch: +12 semitones |
+| 2 | Filter: +4 octaves |
+| 3 | FM index: +8 |
+| 4 | Oscillator morph: +1 |
+| 5 | Panning: move toward the right |
+| 6 | Amplitude: multiplier 1 + modulation, clamped to 0…2 |
 
-Par exemple, utiliser une macro pour animer la FM :
+For example, animate FM with a macro:
 
 ```sh
 faustprobe --double -I . --nvoices 8 --note '60:100@0..88200' \
@@ -139,103 +139,100 @@ faustprobe --double -I . --nvoices 8 --note '60:100@0..88200' \
   -n 176400 --quiet aether.dsp
 ```
 
-Le séquenceur avance à quatre pas par temps. Ses 16 transpositions sont
-éditables (`note_0`…`note_15`) ; `sequence_octaves` multiplie ces intervalles
-par 0, 1, 2 ou 3. `step_gate` règle la fraction de chaque pas tenue.
-Il module la porte d'une note MIDI maintenue ; après un note-off, seule la
-release subsiste. Les pas et LFO sont libres, sans remise à zéro sur note-on.
+The sequencer advances at four steps per beat. Its sixteen transpositions
+are editable (`note_0`…`note_15`); `sequence_octaves` multiplies those intervals
+by 0, 1, 2, or 3. `step_gate` sets the held fraction of each step.
+It modulates the gate of a held MIDI note; after note-off, only the release
+remains. Steps and LFOs are free-running, without a reset on every note-on.
 
 ## Presets
 
-Les valeurs sont dans `presets/patches.json`. Un hôte doit les appliquer aux
-contrôles ; ce fichier n'est pas un menu de presets embarqué dans le DSP.
+Values live in `presets/patches.json`. A host must apply them to the controls;
+this file is not a preset menu embedded in the DSP.
 
-| Preset | Caractère |
+| Preset | Character |
 | --- | --- |
-| `nebula` | Nappe d'unisson, attaque lente, chorus et espace long |
-| `glass` | Cloche FM/additive inharmonique et réverbération |
-| `acid` | Séquence résonante, distorsion et delay |
-| `dark_brass` | Cuivres synthétiques avec montée du filtre |
-| `orbital` | Texture métallique, ring modulation, phaser et échos |
-| `crystal_sequence` | Arpège hybride FM/additif, délai à croche pointée |
+| `nebula` | Unison pad, slow attack, chorus, and a long spacious tail |
+| `glass` | Inharmonic FM/additive bell with reverb |
+| `acid` | Resonant sequence, distortion, and delay |
+| `dark_brass` | Synthetic brass with a rising filter envelope |
+| `orbital` | Metallic texture, ring modulation, phaser, and echoes |
+| `crystal_sequence` | Hybrid FM/additive arpeggio with dotted-eighth delay |
 
-## Validation et limites
+## Validation and limitations
 
-`tests/test_aether.py` vérifie que les patches produisent un signal stéréo
-fini et audible, que le niveau reste borné, que l'inactivité et la release
-reviennent au silence, et que les effets continuent après l'arrêt des voix.
-Il teste 12 voix, le vol de voix, les filtres, les sources/destinations de la
-matrice, des notes MIDI extrêmes, cinq fréquences d'échantillonnage, simple et
-double précision. Sur les voix/effets testés séparément, il vérifie les blocs
-1/7/512, le reset et le déterminisme. Le comparateur est d'abord vérifié par
-une altération volontaire d'un échantillon de référence, qui doit échouer.
+`tests/test_aether.py` checks that patches produce audible, finite stereo
+signals, levels stay bounded, idle/released voices return to silence, and
+effect tails continue after voices stop. It tests twelve voices, voice
+stealing, filters, matrix sources/destinations, extreme MIDI notes, five
+sample rates, and single/double precision. Separate voice/effect tests check
+block sizes 1/7/512, reset, and determinism. Before trusting the comparator,
+a reference sample is deliberately altered and must cause a failure.
 
-Pour comparer directement les échantillons des deux moteurs installés :
+To compare actual samples from the two installed engines:
 
 ```sh
 python3 tests/compare_engines.py /usr/local/bin/faustprobe \
   /Users/letz/faust/tools/faustprobe/faustprobe
 ```
 
-Les commandes exactes et les mesures figurent dans `TEST_REPORT.md` et dans
-les sorties ignorées `test-results/`. Ce sont des tests de l'instrument,
-pas les gates de régression du compilateur Faust : aucun fichier de ce dernier
-n'est modifié. Les vérifications ne constituent pas une preuve pour toutes
-les combinaisons possibles des contrôles.
+Exact commands and measurements are recorded in the local `TEST_REPORT.md`
+and ignored `test-results/` outputs. These are instrument tests, separate
+from Faust compiler regression gates: no compiler source is modified.
+The checks do not prove correctness for every possible control combination.
 
-L'instrument est gourmand : les trois moteurs et les effets restent calculés
-même avec leur volume/mix à zéro. Le délai utilise deux buffers de taille fixe
-(1 048 576 échantillons chacun) pour couvrir 192 kHz et un tempo lent. La
-polyphonie s'ajuste dans l'hôte. Le temps réel n'est pas garanti par les tests
-hors ligne ; mesurer la charge dans l'hôte cible.
+This instrument is computationally demanding: all three engines and effects
+keep computing even at zero volume/mix. The delay uses two fixed-size buffers
+(1,048,576 samples each) to support 192 kHz at slow tempos. The host controls
+polyphony. Offline tests do not guarantee real-time performance; measure
+load in the intended host.
 
-## Exporter vers Rust ou C++
-
-```sh
-make rust       # generated/voice.rs et generated/effects.rs
-make cpp        # generated/voice.cpp et generated/effects.cpp
-```
-
-Les exports sont des classes DSP Faust : leur hôte doit gérer l'audio, le MIDI,
-les voix et le bus partagé. Ce projet n'embarque pas un hôte audio Rust complet.
-Les fichiers générés, rendus et résultats sont ignorés par Git.
-
-## Version web
+## Export to Rust or C++
 
 ```sh
-make web                      # voix + bus stéréo compilés en WebAssembly
-make web-check                # WASM contre faustprobe + 6 presets polyphoniques
-make web-serve                 # http://127.0.0.1:8088/web/
-# Autre port : make web-serve PORT=8090
+make rust       # generated/voice.rs and generated/effects.rs
+make cpp        # generated/voice.cpp and generated/effects.cpp
 ```
 
-`faust-rs` est utilisé pour produire les modules WASM, comme dans
-`/Users/letz/Developpements/RUST/faust-coopiano`. Un Node.js récent est requis
-pour `web-check`. L'interface n'a aucune dépendance npm et ne charge aucune
-ressource externe. Elle se sert en HTTP local : `file://` ne permet pas de
-charger les modules et l'AudioWorklet de façon fiable.
+Exports are Faust DSP classes: their host must handle audio, MIDI, voices,
+and the shared bus. This project does not include a complete Rust audio host.
+Generated files, renders, and test results are ignored by Git.
 
-Cliquer **Activer l’audio**, puis **Jouer un accord**, ou utiliser le clavier
-virtuel. Six cartes donnent accès aux presets et rétablissent également les
-valeurs par défaut des paramètres non spécifiés. Le badge « modifié » signale
-les changements ; ↺ rappelle le preset. Son choix est mémorisé localement.
-Les onglets donnent accès aux moteurs, ADSR/filtres, aux huit routes de
-modulation, aux effets, aux seize pas et à tous les autres réglages.
+## Web version
 
-Le clavier est jouable à la souris, au tactile et par positions physiques des
-touches `A W S E D F T G Y H U J K` (la disposition imprimée dépend du clavier).
-L'octave est réglable, la polyphonie sélectionnable entre 4, 8 et 12 voix.
-La version web démarre à quatre voix pour limiter la charge de ce DSP complexe.
-**Tout arrêter** réinitialise les voix et les effets ; Échap fait de même.
-Les notes volées sont atténuées pendant un bloc avant réaffectation.
+```sh
+make web                      # compile voice + stereo bus to WebAssembly
+make web-check                # WASM vs faustprobe + 6 polyphonic presets
+make web-serve                # http://127.0.0.1:8088/web/
+# Another port: make web-serve PORT=8090
+```
 
-Le bouton MIDI demande l'accès aux entrées Web MIDI, sans SysEx. Sa disponibilité
-dépend du navigateur ; Chrome/Edge conviennent généralement. Aucun microphone
-n'est demandé. Le branchement d'un véritable clavier MIDI reste à vérifier
-avec votre matériel. La courbe et les indicateurs de charge/voix/niveau
-reflètent le moteur en cours, sans déclencher de note en arrière-plan.
+`faust-rs` produces the WASM modules, following the approach used in
+`/Users/letz/Developpements/RUST/faust-coopiano`. A recent Node.js is required
+for `web-check`. The interface has no npm dependencies and loads no external
+resources. Serve it over local HTTP: `file://` does not reliably support
+loading the modules and AudioWorklet.
 
-`web/faust-wasm-dsp.js` est adapté du chargeur de `faust-coopiano`, avec son
-contrat WASM et ses imports mathématiques. Le moteur de voix, le processeur,
-l'interface et les presets sont spécifiques à Aether. Les mêmes sources Faust
-servent aux versions native et web ; seul l'hôte polyphonique change.
+Click **Enable audio**, then **Play a chord**, or use the virtual keyboard.
+Six cards recall presets and restore defaults for unspecified controls.
+The **MODIFIED** badge tracks edits; ↺ restores the selected preset.
+Its name is remembered locally. Tabs expose engines, ADSR/filters, eight
+modulation routes, effects, sixteen steps, and all remaining controls.
+
+Play with mouse, touch, or physical key positions `A W S E D F T G Y H U J K`
+(the printed letters depend on the keyboard layout). Octave is adjustable;
+polyphony is selectable between 4, 8, and 12 voices. The web version starts
+with four voices to limit the load of this complex DSP. **Stop all** resets
+voices and effects; Escape does the same. Stolen voices fade over one block
+before reassignment.
+
+The MIDI button requests Web MIDI inputs without SysEx. Availability depends
+on the browser; Chrome/Edge are generally suitable. No microphone is requested.
+A physical MIDI keyboard still needs verification with your hardware.
+The waveform and load/voice/level indicators reflect the running engine,
+without silently triggering background notes.
+
+`web/faust-wasm-dsp.js` is adapted from the `faust-coopiano` loader and retains
+its WASM contract and math imports. The voice engine, processor, interface,
+and presets are specific to Aether. Native and web versions use the same
+Faust sources; only the polyphonic host changes.
