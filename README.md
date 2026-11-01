@@ -6,6 +6,8 @@ séquenceur 16 pas et bus d'effets stéréo. Aucun échantillon ni plugin extern
 Le projet fournit les sources, six presets, un rendu de démonstration et des
 tests hors ligne reproductibles avec **faustprobe**.
 
+![Interface web d’Aether avec les presets, les réglages de synthèse et le clavier virtuel](docs/images/aether-interface.jpg)
+
 ## Écouter et tester
 
 Depuis ce dossier :
