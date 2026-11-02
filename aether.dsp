@@ -96,8 +96,11 @@ spread = modUI(hslider("stereo_spread",0.72,0,1,0.001)) : si.smoo;
 // Destinations: 1=pitch, 2=cutoff, 3=FM index, 4=waveform, 5=pan, 6=amplitude.
 // Defaults: LFO1 → cutoff and a subtle LFO2 → pitch.
 slotUI(i,x) = modUI(vgroup("Route %i",x));
-slotSrc(i) = slotUI(i,hslider("source",select2(i<2,0,i+1),0,8,1));
-slotDst(i) = slotUI(i,hslider("destination",select2(i==0,select2(i==1,0,1),2),0,6,1));
+// The menu names let plugin hosts display the sources and destinations by name.
+slotSrc(i) = slotUI(i,hslider("source[style:menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}]",
+    select2(i<2,0,i+1),0,8,1));
+slotDst(i) = slotUI(i,hslider("destination[style:menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}]",
+    select2(i==0,select2(i==1,0,1),2),0,6,1));
 slotDepth(i) = slotUI(i,hslider("depth",select2(i==0,select2(i==1,0,0.009),0.12),-1,1,0.001)) : si.smoo;
 
 // Four steps per beat, sixteen steps per cycle. A slow ramp selects the step;
