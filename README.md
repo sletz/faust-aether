@@ -240,7 +240,7 @@ Faust sources; only the polyphonic host changes.
 ## JUCE plugin
 
 ```sh
-make juce-export              # faust2juce -nvoices 12 -effect auto -midi → generated/juce/aether
+make juce-export              # faust2juce -nvoices 12 -effect auto -midi -presets → generated/juce/aether
 make juce JUCE_DIR=~/JUCE     # AU, VST3 and standalone in generated/juce/build/Aether_artefacts
 make juce-run                 # build and open the standalone application
 make juce-snapshot            # play a chord offscreen, render each tab to test-results/juce
@@ -261,8 +261,12 @@ tabbed controls with envelope curves, a routing table, a drawable step
 sequencer and a keyboard. The host tail comes from `declare tail_sec` in
 `aether.dsp`. This needs Faust from `master-dev`; CMake stops with an error on
 an export from an older Faust. Before installing it, export with
-`FAUSTARCH=<faust>/architecture FAUST_ARCH_PATH=<faust>/architecture make juce`.
-Presets come from `presets/patches.json`, compiled in.
+`FAUSTARCH=<faust>/architecture FAUST_ARCH_PATH=<faust>/architecture make juce
+FAUST2JUCE=<faust>/tools/faust2appls/faust2juce`.
+`faust2juce -presets presets/patches.json` turns the presets into host programs
+("Default", then nebula, glass…): hosts list them in their preset menu, and
+the editor cards select them, so both show the same preset, which is saved with
+the session. The editor also compiles them in, for their descriptions.
 The effect bus reads `bpm` too: the architecture publishes it as a single host
 parameter driving both, and the route sources and destinations by name.
 Computer keys `A W S E D F T G Y H U J K` play when the keyboard has

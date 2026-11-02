@@ -31,7 +31,7 @@ help:
 	  'Options:' \
 	  '  PRESET=$(PRESET)  SECONDS=$(SECONDS)  PORT=$(PORT)  WEB_PRECISION=$(WEB_PRECISION)' \
 	  '  FAUST=$(FAUST)  FAUSTPROBE=$(FAUSTPROBE)  FAUSTRS=$(FAUSTRS)  PYTHON=$(PYTHON)' \
-	  '  JUCE_DIR=$(JUCE_DIR)  (empty: CMake downloads JUCE 8.0.10)' \
+	  '  JUCE_DIR=$(JUCE_DIR)  (empty: CMake downloads JUCE 8.0.10)  FAUST2JUCE=$(FAUST2JUCE)' \
 	  '' \
 	  'Examples:' \
 	  '  make demo PRESET=glass SECONDS=12' \
@@ -79,15 +79,16 @@ web-serve: web
 # JUCE export: faust2juce writes <dsp name>/ next to the .dsp and deletes any
 # existing entry with that name, so it runs on a copy inside generated/juce.
 JUCE_DIR ?=
+FAUST2JUCE ?= faust2juce
 JUCE_BUILD = generated/juce/build
 JUCE_APP = $(JUCE_BUILD)/Aether_artefacts/Release/Standalone/Aether.app
 .PHONY: juce-export juce juce-run juce-snapshot
 juce-export: generated/juce/aether/FaustPluginProcessor.cpp
 
-generated/juce/aether/FaustPluginProcessor.cpp: aether.dsp
+generated/juce/aether/FaustPluginProcessor.cpp: aether.dsp presets/patches.json
 	mkdir -p generated/juce
 	cp aether.dsp generated/juce/aether.dsp
-	cd generated/juce && faust2juce -nvoices 12 -effect auto -midi aether.dsp
+	cd generated/juce && "$(FAUST2JUCE)" -nvoices 12 -effect auto -midi -presets ../../presets/patches.json aether.dsp
 
 juce: juce-export
 	cmake -S juce -B $(JUCE_BUILD) -DCMAKE_BUILD_TYPE=Release $(if $(JUCE_DIR),-DJUCE_DIR="$(JUCE_DIR)")

@@ -1214,7 +1214,7 @@ public:
         octaveUp.setButtonText ("+");
         stopButton.setButtonText ("Stop all");
         playButton.onClick = [this] { playChord(); };
-        resetButton.onClick = [this] { applyPreset (bridge.selectedPreset); };
+        resetButton.onClick = [this] { applyPreset (selectedPreset()); };
         octaveDown.onClick = [this] { setOctave (octave - 1); };
         octaveUp.onClick = [this] { setOctave (octave + 1); };
         stopButton.onClick = [this] { stopAll(); };
@@ -1359,7 +1359,7 @@ private:
 
     void paintPatchHeader (juce::Graphics& g)
     {
-        const int selected = bridge.selectedPreset;
+        const int selected = selectedPreset();
         const bool hasPreset = juce::isPositiveAndBelow (selected, int (presets.size()));
         g.setColour (colour::muted);
         g.setFont (mono (9.5f, 0.16f));
@@ -1509,14 +1509,48 @@ private:
         repaint (main.withY (400).withHeight (24));
     }
 
-    // Preset recall is complete, as on the web: controls the preset does not
-    // name go back to their defaults, so nothing leaks from the previous sound.
+    // The presets are host programs (faust2juce -presets), named after their
+    // patches.json key, after program 0, "Default". Return the program of a
+    // preset index (-1 for the defaults), or -1 if the host has no such program.
+    int programOf (int presetIndex)
+    {
+        if (! juce::isPositiveAndBelow (presetIndex, int (presets.size())))
+            return 0;
+        for (int program = 1; program < processor.getNumPrograms(); ++program)
+            if (processor.getProgramName (program) == presets[size_t (presetIndex)].id)
+                return program;
+        return -1;
+    }
+
+    // The preset of the current host program, -1 for "Default".
+    int selectedPreset()
+    {
+        const auto name = processor.getProgramName (processor.getCurrentProgram());
+        for (int i = 0; i < int (presets.size()); ++i)
+            if (presets[size_t (i)].id == name)
+                return i;
+        return -1;
+    }
+
+    // Selecting a preset selects its host program, so the host shows it too and
+    // saves it with the session. The processor recalls it completely: controls
+    // the preset does not name go back to their defaults. Selecting the current
+    // program again is ignored by the processor, so the editor itself restores
+    // the preset values (the reset button).
     void applyPreset (int index)
     {
-        const Preset* preset = juce::isPositiveAndBelow (index, int (presets.size())) ? &presets[size_t (index)] : nullptr;
-        for (auto* param : model.all())
-            param->set (target (*param, preset));
-        bridge.selectedPreset = preset != nullptr ? index : -1;
+        const int program = programOf (index);
+        if (program >= 0 && program != processor.getCurrentProgram())
+        {
+            processor.setCurrentProgram (program);
+        }
+        else
+        {
+            const Preset* preset = juce::isPositiveAndBelow (index, int (presets.size())) ? &presets[size_t (index)] : nullptr;
+            for (auto* param : model.all())
+                param->set (target (*param, preset));
+        }
+        shownProgram = processor.getCurrentProgram();
         updateCards();
         modified = false;
         repaint (main.withY (80).withHeight (96));
@@ -1535,7 +1569,7 @@ private:
     void updateCards()
     {
         for (int i = 0; i < cards.size(); ++i)
-            cards[i]->setToggleState (i == bridge.selectedPreset, juce::dontSendNotification);
+            cards[i]->setToggleState (i == selectedPreset(), juce::dontSendNotification);
     }
 
     void setOctave (int newOctave)
@@ -1592,7 +1626,15 @@ private:
         if (page != nullptr)
             page->refresh();
 
-        const int selected = bridge.selectedPreset;
+        // The host can change the program too.
+        if (processor.getCurrentProgram() != shownProgram)
+        {
+            shownProgram = processor.getCurrentProgram();
+            updateCards();
+            repaint (main.withY (80).withHeight (96));
+        }
+
+        const int selected = selectedPreset();
         const Preset* preset = juce::isPositiveAndBelow (selected, int (presets.size())) ? &presets[size_t (selected)] : nullptr;
         bool changed = false;
         for (auto* param : model.all())
@@ -1634,6 +1676,7 @@ private:
     Keyboard keyboard;
 
     int octave = 3;
+    int shownProgram = -1;
     int demoGeneration = 0;
     bool demoPending = false, modified = false, focusRequested = false;
     float level = 0.0f, shownLoad = -1.0f, shownLevel = 0.0f;

@@ -24,10 +24,8 @@ struct AetherBridge
     std::atomic<float> peak { 0.0f };
     std::atomic<double> sampleRate { 0.0 };
     std::atomic<bool> panicRequested { false };
-    // Editor state that must survive the editor window being closed.
-    // No preset is selected until the user picks one: the DSP starts from the
-    // defaults declared in aether.dsp.
-    std::atomic<int> selectedPreset { -1 };
+    // Editor state that must survive the editor window being closed (the
+    // selected preset is the host program, kept by the processor).
     std::atomic<int> selectedTab { 0 };
 
     std::array<std::atomic<float>, scopeSize> scope {};

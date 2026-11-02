@@ -68,13 +68,13 @@ target_include_directories(Aether PRIVATE
     "${AETHER_EXPORT_DIR}"
     ${FAUST_INCLUDE_DIR})
 
-# Same definitions as the .jucer written by faust2juce -nvoices 12 -effect auto -midi,
-# plus the header that replaces the generic editor.
+# Same definitions as the .jucer written by faust2juce -nvoices 12 -effect auto -midi
+# -presets (FAUST_PRESETS: the presets become host programs), plus the header that
+# replaces the generic editor.
 target_compile_definitions(Aether PUBLIC
-    POLY2 MIDICTRL NVOICES=12 FAUSTFLOAT=float
+    POLY2 MIDICTRL FAUST_PRESETS NVOICES=12 FAUSTFLOAT=float
     "FAUST_CUSTOM_EDITOR=\"FaustCustomEditor.h\""
-    JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0
-    JUCE_DISPLAY_SPLASH_SCREEN=0)
+    JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
 
 # The generated file inlines the Faust architecture, including the unused
 # generic JuceGUI that relies on APIs JUCE 8 deprecates.
@@ -100,7 +100,7 @@ target_sources(AetherSnapshot PRIVATE
 target_include_directories(AetherSnapshot PRIVATE
     Source Source/JuceLibraryCode "${AETHER_EXPORT_DIR}" ${FAUST_INCLUDE_DIR})
 target_compile_definitions(AetherSnapshot PRIVATE
-    POLY2 MIDICTRL NVOICES=12 FAUSTFLOAT=float
+    POLY2 MIDICTRL FAUST_PRESETS NVOICES=12 FAUSTFLOAT=float
     "FAUST_CUSTOM_EDITOR=\"FaustCustomEditor.h\""
     JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0
     JUCE_MODAL_LOOPS_PERMITTED=1 # runDispatchLoopUntil lets timers and async calls run
