@@ -8,6 +8,9 @@ declare author "Faust example project";
 declare version "1.0.0";
 declare license "MIT";
 declare options "[midi:on][nvoices:12]";
+// Tail reported to plugin hosts (faust2juce): ping-pong repeats and a reverb of
+// up to 8 s keep sounding after the last note.
+declare tail_sec "12";
 import("stdfaust.lib");
 
 // Utilities: clamping, semitones to frequency ratio, and smoothing.

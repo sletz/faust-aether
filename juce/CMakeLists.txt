@@ -16,6 +16,15 @@ option(AETHER_INSTALL_PLUGINS "Copy the AU and VST3 into ~/Library/Audio/Plug-In
 if(NOT EXISTS "${AETHER_EXPORT_DIR}/FaustPluginProcessor.cpp")
     message(FATAL_ERROR "No faust2juce export in ${AETHER_EXPORT_DIR}: run make juce-export first.")
 endif()
+# The editor plugs in through FAUST_CUSTOM_EDITOR; an export from an older Faust
+# would silently build the generic interface instead.
+file(READ "${AETHER_EXPORT_DIR}/FaustPluginProcessor.cpp" AETHER_EXPORT)
+string(FIND "${AETHER_EXPORT}" "createFaustEditor" AETHER_HAS_EDITOR_HOOK)
+unset(AETHER_EXPORT)
+if(AETHER_HAS_EDITOR_HOOK EQUAL -1)
+    message(FATAL_ERROR "This faust2juce export does not support FAUST_CUSTOM_EDITOR: "
+                        "install Faust from master-dev and run make juce-export again.")
+endif()
 
 if(JUCE_DIR)
     add_subdirectory("${JUCE_DIR}" JUCE)
@@ -59,9 +68,11 @@ target_include_directories(Aether PRIVATE
     "${AETHER_EXPORT_DIR}"
     ${FAUST_INCLUDE_DIR})
 
-# Same definitions as the .jucer written by faust2juce -nvoices 12 -effect auto -midi.
+# Same definitions as the .jucer written by faust2juce -nvoices 12 -effect auto -midi,
+# plus the header that replaces the generic editor.
 target_compile_definitions(Aether PUBLIC
     POLY2 MIDICTRL NVOICES=12 FAUSTFLOAT=float
+    "FAUST_CUSTOM_EDITOR=\"FaustCustomEditor.h\""
     JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0
     JUCE_DISPLAY_SPLASH_SCREEN=0)
 
@@ -90,6 +101,7 @@ target_include_directories(AetherSnapshot PRIVATE
     Source Source/JuceLibraryCode "${AETHER_EXPORT_DIR}" ${FAUST_INCLUDE_DIR})
 target_compile_definitions(AetherSnapshot PRIVATE
     POLY2 MIDICTRL NVOICES=12 FAUSTFLOAT=float
+    "FAUST_CUSTOM_EDITOR=\"FaustCustomEditor.h\""
     JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0
     JUCE_MODAL_LOOPS_PERMITTED=1 # runDispatchLoopUntil lets timers and async calls run
     JucePlugin_Name="Aether" JucePlugin_WantsMidiInput=1 JucePlugin_ProducesMidiOutput=0)

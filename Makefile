@@ -84,11 +84,10 @@ JUCE_APP = $(JUCE_BUILD)/Aether_artefacts/Release/Standalone/Aether.app
 .PHONY: juce-export juce juce-run juce-snapshot
 juce-export: generated/juce/aether/FaustPluginProcessor.cpp
 
-generated/juce/aether/FaustPluginProcessor.cpp: aether.dsp juce/patch_processor.py
+generated/juce/aether/FaustPluginProcessor.cpp: aether.dsp
 	mkdir -p generated/juce
 	cp aether.dsp generated/juce/aether.dsp
 	cd generated/juce && faust2juce -nvoices 12 -effect auto -midi aether.dsp
-	$(PYTHON) juce/patch_processor.py $@
 
 juce: juce-export
 	cmake -S juce -B $(JUCE_BUILD) -DCMAKE_BUILD_TYPE=Release $(if $(JUCE_DIR),-DJUCE_DIR="$(JUCE_DIR)")

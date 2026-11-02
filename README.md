@@ -252,13 +252,16 @@ project builds with `juce/CMakeLists.txt` and JUCE 8. Without `JUCE_DIR`, CMake
 downloads JUCE 8.0.10. Pass `-DAETHER_INSTALL_PLUGINS=ON` to copy the AU and
 VST3 to `~/Library/Audio/Plug-Ins` after each build.
 
-`juce/patch_processor.py` makes a few anchored edits to the export. It swaps the
-generic Faust interface for the editor in `juce/Source`, which is modelled on
-the web version: preset library, scope and telemetry, tabbed controls with
-envelope curves, a routing table and a drawable step sequencer, and a keyboard.
-It requires Faust from `master-dev` with the two `JuceParameterUI.h` fixes
-(host parameters report their current value; floats keep the Faust step
-instead of a 0.01 grid) and stops with an error on an older export.
+The export is used unmodified. The build defines `FAUST_CUSTOM_EDITOR` as
+`juce/Source/FaustCustomEditor.h`: the Faust JUCE architecture then skips its
+generic interface, feeds `AetherBridge` (keyboard, scope, level, load, active
+voices) from the audio thread and opens the editor in `juce/Source`. That
+editor is modelled on the web version: preset library, scope and telemetry,
+tabbed controls with envelope curves, a routing table, a drawable step
+sequencer and a keyboard. The host tail comes from `declare tail_sec` in
+`aether.dsp`. This needs Faust from `master-dev`; CMake stops with an error on
+an export from an older Faust. Before installing it, export with
+`FAUSTARCH=<faust>/architecture FAUST_ARCH_PATH=<faust>/architecture make juce`.
 Presets come from `presets/patches.json`, compiled in.
 The effect bus publishes its own copy of `bpm`, so the editor moves both
 together. Computer keys `A W S E D F T G Y H U J K` play when the keyboard has

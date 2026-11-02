@@ -1311,7 +1311,7 @@ private:
         g.drawText (format, badge, juce::Justification::centred);
 
         const juce::String status = "Engine running  " + juce::String (juce::CharPointer_UTF8 ("\xc2\xb7")) + "  "
-                                    + juce::String (bridge.numVoices) + " voices";
+                                    + juce::String (bridge.numVoices.load()) + " voices";
         const float statusWidth = textWidth (mono (11.0f), status);
         const float statusX = badge.getX() - 26.0f - statusWidth;
         g.setColour (colour::muted);
@@ -1408,7 +1408,7 @@ private:
         const float cellWidth = cells.getWidth() / 4.25f;
         const juce::String labels[] = { "ACTIVE VOICES", "SAMPLE RATE", "AUDIO LOAD", "OUTPUT LEVEL" };
         const std::pair<juce::String, juce::String> values[] = {
-            { juce::String (shownVoices), "/ " + juce::String (bridge.numVoices) },
+            { juce::String (shownVoices), "/ " + juce::String (bridge.numVoices.load()) },
             { shownRate > 0.0 ? juce::String (shownRate / 1000.0, 1) : juce::String (juce::CharPointer_UTF8 ("\xe2\x80\x94")), "kHz" },
             { juce::String (juce::roundToInt (shownLoad)), "%" },
         };

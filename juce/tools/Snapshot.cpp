@@ -66,6 +66,7 @@ int main (int argc, char* argv[])
         chord.addEvent (juce::MidiMessage::noteOn (1, note, 0.8f), 0);
     const float playing = render (*processor, chord, 120);
     std::cout << "peak before notes " << silence << ", while playing " << playing << "\n";
+    std::cout << "tail " << processor->getTailLengthSeconds() << " s\n";
 
     std::unique_ptr<juce::AudioProcessorEditor> editor (processor->createEditor());
     editor->setSize (1180, 890);
