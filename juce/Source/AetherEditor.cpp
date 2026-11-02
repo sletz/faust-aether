@@ -199,15 +199,19 @@ public:
             if (ranged == nullptr)
                 continue;
 
-            auto path = juce::StringArray::fromTokens (ranged->getParameterID(), "/", "");
-            path.removeEmptyStrings();
-            const auto leaf = path[path.size() - 1];
+            // The name is the Faust label. Only the routing controls repeat one,
+            // so their key adds the "Route_i" group read from the ID, whether
+            // the ID is a shortname (Route_0_depth) or a full path (…/Route_0/depth).
+            const auto leaf = ranged->getName (128);
             // Note parameters belong to the polyphonic engine, not to timbres.
             if (leaf == "freq" || leaf == "gain" || leaf == "gate" || leaf == "Panic")
                 continue;
 
             const auto key = (leaf == "source" || leaf == "destination" || leaf == "depth")
-                                 ? path[path.size() - 2] + "/" + leaf
+                                 ? ranged->getParameterID().fromLastOccurrenceOf ("Route_", true, false)
+                                           .initialSectionContainingOnly ("Route_0123456789")
+                                           .trimCharactersAtEnd ("_")
+                                       + "/" + leaf
                                  : leaf;
             if (auto* existing = find (key))
             {
