@@ -236,3 +236,30 @@ without silently triggering background notes.
 its WASM contract and math imports. The voice engine, processor, interface,
 and presets are specific to Aether. Native and web versions use the same
 Faust sources; only the polyphonic host changes.
+
+## JUCE plugin
+
+```sh
+make juce-export              # faust2juce -nvoices 12 -effect auto -midi → generated/juce/aether
+make juce JUCE_DIR=~/JUCE     # AU, VST3 and standalone in generated/juce/build/Aether_artefacts
+make juce-run                 # build and open the standalone application
+make juce-snapshot            # play a chord offscreen, render each tab to test-results/juce
+```
+
+`faust2juce` writes the processor (`FaustPluginProcessor.cpp`, polyphonic voice
+plus the shared `effect` bus) and its `.jucer`. Instead of Projucer, the
+project builds with `juce/CMakeLists.txt` and JUCE 8. Without `JUCE_DIR`, CMake
+downloads JUCE 8.0.10. Pass `-DAETHER_INSTALL_PLUGINS=ON` to copy the AU and
+VST3 to `~/Library/Audio/Plug-Ins` after each build.
+
+`juce/patch_processor.py` makes a few anchored edits to the export. It swaps the
+generic Faust interface for the editor in `juce/Source`, which is modelled on
+the web version: preset library, scope and telemetry, tabbed controls with
+envelope curves, a routing table and a drawable step sequencer, and a keyboard.
+It also fixes two bugs in Faust's `JuceParameterUI.h` that this editor exposes:
+host parameters never report their current value (`getValue` is not
+overridden), and floats are quantised to 0.01 because the JUCE constructor used
+ignores the Faust step. Presets come from `presets/patches.json`, compiled in.
+The effect bus publishes its own copy of `bpm`, so the editor moves both
+together. Computer keys `A W S E D F T G Y H U J K` play when the keyboard has
+focus. Not yet checked in a DAW: host MIDI, automation and state recall.
