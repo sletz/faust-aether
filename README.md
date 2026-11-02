@@ -256,10 +256,10 @@ VST3 to `~/Library/Audio/Plug-Ins` after each build.
 generic Faust interface for the editor in `juce/Source`, which is modelled on
 the web version: preset library, scope and telemetry, tabbed controls with
 envelope curves, a routing table and a drawable step sequencer, and a keyboard.
-It also fixes two bugs in Faust's `JuceParameterUI.h` that this editor exposes:
-host parameters never report their current value (`getValue` is not
-overridden), and floats are quantised to 0.01 because the JUCE constructor used
-ignores the Faust step. Presets come from `presets/patches.json`, compiled in.
+It requires Faust from `master-dev` with the two `JuceParameterUI.h` fixes
+(host parameters report their current value; floats keep the Faust step
+instead of a 0.01 grid) and stops with an error on an older export.
+Presets come from `presets/patches.json`, compiled in.
 The effect bus publishes its own copy of `bpm`, so the editor moves both
 together. Computer keys `A W S E D F T G Y H U J K` play when the keyboard has
 focus. Not yet checked in a DAW: host MIDI, automation and state recall.

@@ -9,44 +9,19 @@ in a future Faust release fails loudly rather than producing a silent mismatch.
 import sys
 from pathlib import Path
 
+# The editor reads parameters back and recalls presets exactly, which needs the
+# JuceParameterUI.h fixes on Faust master-dev (2895e16d2 and 678845a63): host
+# parameters report the live zone, and floats keep the Faust step instead of a
+# 0.01 grid. Each marker is a line those commits add to the export.
+REQUIRED_FAUST_FIXES = [
+    'virtual float getValue() const override',
+    'juce::NormalisableRange<float>(float(min), float(max), float(step))',
+]
+
 PATCHES = [
     # The editor and its bridge only need JUCE, so they come right after it.
     ('#include "JuceLibraryCode/JuceHeader.h"\n',
      '#include "JuceLibraryCode/JuceHeader.h"\n#include "AetherEditor.h"\n', 1),
-    # The stock parameters override setValue but not getValue, so hosts and
-    # editors read the initial value forever. Report the live Faust zone.
-    ('    virtual void setValue (float newValue) override\n'
-     '    {\n'
-     '        modifyZone(FAUSTFLOAT(range.convertFrom0to1(newValue)));\n'
-     '    }\n',
-     '    virtual void setValue (float newValue) override\n'
-     '    {\n'
-     '        modifyZone(FAUSTFLOAT(range.convertFrom0to1(newValue)));\n'
-     '    }\n'
-     '    \n'
-     '    float getValue() const override\n'
-     '    {\n'
-     '        return range.convertTo0to1(range.getRange().clipValue(float(*fZone)));\n'
-     '    }\n', 1),
-    ('    virtual void setValue (float newValue) override\n'
-     '    {\n'
-     '        modifyZone(FAUSTFLOAT(newValue));\n'
-     '    }\n',
-     '    virtual void setValue (float newValue) override\n'
-     '    {\n'
-     '        modifyZone(FAUSTFLOAT(newValue));\n'
-     '    }\n'
-     '    \n'
-     '    float getValue() const override\n'
-     '    {\n'
-     '        return (*fZone > FAUSTFLOAT(0.5)) ? 1.0f : 0.0f;\n'
-     '    }\n', 1),
-    # The (min, max, default) AudioParameterFloat constructor imposes a 0.01
-    # interval: hosts would snap a 3 ms attack to 1 ms. Use the Faust step.
-    (':juce::AudioParameterFloat(juce::ParameterID(path, /* versionHint */ 1), label, '
-     'float(min), float(max), float(init))',
-     ':juce::AudioParameterFloat(juce::ParameterID(path, /* versionHint */ 1), label, '
-     'juce::NormalisableRange<float>(float(min), float(max), float(step)), float(init))', 1),
     # One bridge per processor (the PLUGIN_MAGIC variant gets one too, unused).
     ('        JuceParameterUI fParameterUI;\n',
      '        JuceParameterUI fParameterUI;\n        AetherBridge fBridge;\n', 2),
@@ -85,6 +60,10 @@ def main(path):
     source = Path(path).read_text()
     if '#include "AetherEditor.h"' in source:
         sys.exit(f'{path} is already patched; regenerate it with faust2juce first.')
+    for marker in REQUIRED_FAUST_FIXES:
+        if marker not in source:
+            sys.exit(f'{path} comes from a Faust without the JuceParameterUI.h fixes '
+                     f'(missing: {marker}). Install Faust from master-dev.')
     for old, new, expected in PATCHES:
         found = source.count(old)
         if found != expected:
