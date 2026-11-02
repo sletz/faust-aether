@@ -29,9 +29,9 @@ and is not part of the DSP.
 
 ```sh
 make test FAUST=/usr/local/bin/faust FAUSTPROBE=/usr/local/bin/faustprobe
-# Alternative engine available on the development machine:
-make test FAUST=/Users/letz/faust/build/bin/faust \
-  FAUSTPROBE=/Users/letz/faust/tools/faustprobe/faustprobe
+# Another engine, built from a Faust source checkout <faust>:
+make test FAUST=<faust>/build/bin/faust \
+  FAUSTPROBE=<faust>/tools/faustprobe/faustprobe
 ```
 
 The identity check requires a compiler whose `--version` output includes
@@ -173,7 +173,7 @@ To compare actual samples from the two installed engines:
 
 ```sh
 python3 tests/compare_engines.py /usr/local/bin/faustprobe \
-  /Users/letz/faust/tools/faustprobe/faustprobe
+  <faust>/tools/faustprobe/faustprobe
 ```
 
 Exact commands and measurements are recorded in the local `TEST_REPORT.md`
@@ -207,8 +207,8 @@ make web-serve                # http://127.0.0.1:8088/web/
 # Another port: make web-serve PORT=8090
 ```
 
-`faust-rs` produces the WASM modules, following the approach used in
-`/Users/letz/Developpements/RUST/faust-coopiano`. A recent Node.js is required
+`faust-rs` produces the WASM modules, following the approach used in the
+`faust-coopiano` project. A recent Node.js is required
 for `web-check`. The interface has no npm dependencies and loads no external
 resources. Serve it over local HTTP: `file://` does not reliably support
 loading the modules and AudioWorklet.
@@ -260,7 +260,8 @@ editor is modelled on the web version: preset library, scope and telemetry,
 tabbed controls with envelope curves, a routing table, a drawable step
 sequencer and a keyboard. The host tail comes from `declare tail_sec` in
 `aether.dsp`. This needs Faust from `master-dev`; CMake stops with an error on
-an export from an older Faust. Before installing it, export with
+an export from an older Faust. Before installing it, export from a source
+checkout `<faust>` with
 `FAUSTARCH=<faust>/architecture FAUST_ARCH_PATH=<faust>/architecture make juce
 FAUST2JUCE=<faust>/tools/faust2appls/faust2juce`.
 `faust2juce -presets presets/patches.json` turns the presets into host programs
