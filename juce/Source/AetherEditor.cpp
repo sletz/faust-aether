@@ -105,8 +105,9 @@ const juce::StringArray destinations { "Disabled", "Pitch", "Filter", "FM index"
 //==============================================================================
 // One control, addressed by its short key: the widget label, or "Route_i/label"
 // for the repeated routing controls. A key can own several host parameters:
-// the effect bus reads the voice's bpm for its delay time, so faust2juce
-// publishes bpm once per DSP and both must move together.
+// the effect bus reads the voice's bpm for its delay time, and Faust exports
+// that do not merge shared controls (older ones, or FAUST_JUCE_FULLPATH_IDS)
+// publish bpm once per DSP, so all of them must move together.
 struct Param
 {
     juce::RangedAudioParameter* parameter = nullptr; // the first one, read back

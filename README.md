@@ -263,6 +263,7 @@ sequencer and a keyboard. The host tail comes from `declare tail_sec` in
 an export from an older Faust. Before installing it, export with
 `FAUSTARCH=<faust>/architecture FAUST_ARCH_PATH=<faust>/architecture make juce`.
 Presets come from `presets/patches.json`, compiled in.
-The effect bus publishes its own copy of `bpm`, so the editor moves both
-together. Computer keys `A W S E D F T G Y H U J K` play when the keyboard has
+The effect bus reads `bpm` too: the architecture publishes it as a single host
+parameter driving both, and the route sources and destinations by name.
+Computer keys `A W S E D F T G Y H U J K` play when the keyboard has
 focus. Not yet checked in a DAW: host MIDI, automation and state recall.
