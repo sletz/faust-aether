@@ -1,0 +1,1271 @@
+{
+	"name": "Aether",
+	"filename": "aether.dsp",
+	"version": "0.9.5",
+	"compile_options": "-lang wasm -single",
+	"library_list": ["/usr/local/share/faust/stdfaust.lib","/usr/local/share/faust/signals.lib","/usr/local/share/faust/maths.lib","/usr/local/share/faust/platform.lib","/usr/local/share/faust/oscillators.lib","/usr/local/share/faust/filters.lib","/usr/local/share/faust/basics.lib","/usr/local/share/faust/envelopes.lib","/usr/local/share/faust/noises.lib","/usr/local/share/faust/misceffects.lib","/usr/local/share/faust/aanl.lib","/usr/local/share/faust/vaeffects.lib"],
+	"include_pathnames": [".","/usr/local/share/faust","/usr/share/faust",""],
+	"size": 771628,
+	"inputs": 0,
+	"outputs": 2,
+	"sr_index": 0,
+	"meta": [ 
+		{ "/usr/local/share/faust/aanl.lib/clip:deprecated": "internal helper, renamed _clip" },
+		{ "/usr/local/share/faust/aanl.lib/name": "Faust Antialiased Nonlinearities" },
+		{ "/usr/local/share/faust/aanl.lib/version": "1.6.0" },
+		{ "/usr/local/share/faust/basics.lib/name": "Faust Basic Element Library" },
+		{ "/usr/local/share/faust/basics.lib/version": "1.23.6" },
+		{ "/usr/local/share/faust/envelopes.lib/adsr:author": "Yann Orlarey and Andrey Bundin" },
+		{ "/usr/local/share/faust/envelopes.lib/author": "GRAME" },
+		{ "/usr/local/share/faust/envelopes.lib/copyright": "GRAME" },
+		{ "/usr/local/share/faust/envelopes.lib/license": "LicenseRef-LGPL-2.1-or-later-with-Faust-exception" },
+		{ "/usr/local/share/faust/envelopes.lib/name": "Faust Envelope Library" },
+		{ "/usr/local/share/faust/envelopes.lib/version": "1.3.3" },
+		{ "/usr/local/share/faust/filters.lib/_tanhalf:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/_tanhalf:license": "MIT" },
+		{ "/usr/local/share/faust/filters.lib/dcblocker:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/dcblocker:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/dcblocker:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/fir:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/fir:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/fir:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/iir:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/iir:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/iir:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/name": "Faust Filters Library" },
+		{ "/usr/local/share/faust/filters.lib/pole:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/pole:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/pole:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/resonbp:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/resonbp:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/resonbp:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/resonhp:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/resonhp:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/resonhp:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/tf2s:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/tf2s:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/tf2s:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/filters.lib/version": "1.13.4" },
+		{ "/usr/local/share/faust/filters.lib/zero:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/filters.lib/zero:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>" },
+		{ "/usr/local/share/faust/filters.lib/zero:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/maths.lib/author": "GRAME" },
+		{ "/usr/local/share/faust/maths.lib/copyright": "GRAME" },
+		{ "/usr/local/share/faust/maths.lib/license": "LicenseRef-LGPL-2.1-or-later-with-Faust-exception" },
+		{ "/usr/local/share/faust/maths.lib/name": "Faust Math Library" },
+		{ "/usr/local/share/faust/maths.lib/version": "2.9.3" },
+		{ "/usr/local/share/faust/misceffects.lib/name": "Misc Effects Library" },
+		{ "/usr/local/share/faust/misceffects.lib/version": "2.7.2" },
+		{ "/usr/local/share/faust/misceffects.lib/wavefold:author": "David Braun" },
+		{ "/usr/local/share/faust/noises.lib/name": "Faust Noise Generator Library" },
+		{ "/usr/local/share/faust/noises.lib/version": "1.9.0" },
+		{ "/usr/local/share/faust/oscillators.lib/lf_sawpos:author": "Bart Brouns, revised by Stéphane Letz" },
+		{ "/usr/local/share/faust/oscillators.lib/lf_sawpos:licence": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/oscillators.lib/name": "Faust Oscillator Library" },
+		{ "/usr/local/share/faust/oscillators.lib/saw2ptr:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/oscillators.lib/saw2ptr:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/oscillators.lib/sawN:author": "Julius O. Smith III" },
+		{ "/usr/local/share/faust/oscillators.lib/sawN:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/oscillators.lib/version": "1.9.5" },
+		{ "/usr/local/share/faust/platform.lib/name": "Generic Platform Library" },
+		{ "/usr/local/share/faust/platform.lib/version": "1.3.1" },
+		{ "/usr/local/share/faust/signals.lib/name": "Faust Routing Library" },
+		{ "/usr/local/share/faust/signals.lib/version": "1.8.0" },
+		{ "/usr/local/share/faust/vaeffects.lib/moogLadder:author": "Dario Sanfilippo" },
+		{ "/usr/local/share/faust/vaeffects.lib/moogLadder:license": "LicenseRef-STK-4.3" },
+		{ "/usr/local/share/faust/vaeffects.lib/name": "Faust Virtual Analog Filter Effect Library" },
+		{ "/usr/local/share/faust/vaeffects.lib/version": "1.7.1" },
+		{ "author": "Faust example project" },
+		{ "compile_options": "-lang wasm -single" },
+		{ "filename": "aether.dsp" },
+		{ "license": "MIT" },
+		{ "name": "Aether" },
+		{ "options": "[midi:on][nvoices:12]" },
+		{ "tail_sec": "12" },
+		{ "version": "1.0.0" }
+	],
+	"ui": [ 
+		{
+			"type": "vgroup",
+			"label": "Aether",
+			"items": [ 
+				{
+					"type": "vgroup",
+					"label": "Voice",
+					"meta": [
+						{ "0": "" }
+					],
+					"items": [ 
+						{
+							"type": "vgroup",
+							"label": "Engines",
+							"meta": [
+								{ "1": "" }
+							],
+							"items": [ 
+								{
+									"type": "hslider",
+									"label": "add_level",
+									"varname": "fHslider65",
+									"shortname": "add_level",
+									"address": "/Aether/Voice/Engines/add_level",
+									"index": 348,
+									"init": 0.18,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "brightness",
+									"varname": "fHslider67",
+									"shortname": "brightness",
+									"address": "/Aether/Voice/Engines/brightness",
+									"index": 356,
+									"init": 0.5,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "detune_cents",
+									"varname": "fHslider58",
+									"shortname": "detune_cents",
+									"address": "/Aether/Voice/Engines/detune_cents",
+									"index": 316,
+									"init": 12,
+									"min": 0,
+									"max": 45,
+									"step": 0.1
+								},
+								{
+									"type": "hslider",
+									"label": "drive",
+									"varname": "fHslider70",
+									"shortname": "drive",
+									"address": "/Aether/Voice/Engines/drive",
+									"index": 300,
+									"init": 1.4,
+									"min": 1,
+									"max": 8,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "fm_index",
+									"varname": "fHslider63",
+									"shortname": "fm_index",
+									"address": "/Aether/Voice/Engines/fm_index",
+									"index": 340,
+									"init": 1.5,
+									"min": 0,
+									"max": 12,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "fm_level",
+									"varname": "fHslider61",
+									"shortname": "fm_level",
+									"address": "/Aether/Voice/Engines/fm_level",
+									"index": 332,
+									"init": 0.2,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "fm_parallel",
+									"varname": "fHslider62",
+									"shortname": "fm_parallel",
+									"address": "/Aether/Voice/Engines/fm_parallel",
+									"index": 336,
+									"init": 0.35,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "fm_ratio",
+									"varname": "fHslider64",
+									"shortname": "fm_ratio",
+									"address": "/Aether/Voice/Engines/fm_ratio",
+									"index": 344,
+									"init": 2,
+									"min": 0.25,
+									"max": 8,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "fold",
+									"varname": "fHslider71",
+									"shortname": "fold",
+									"address": "/Aether/Voice/Engines/fold",
+									"index": 304,
+									"init": 0.08,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "inharmonicity",
+									"varname": "fHslider66",
+									"shortname": "inharmonicity",
+									"address": "/Aether/Voice/Engines/inharmonicity",
+									"index": 352,
+									"init": 0.015,
+									"min": 0,
+									"max": 0.35,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "morph",
+									"varname": "fHslider1",
+									"shortname": "morph",
+									"address": "/Aether/Voice/Engines/morph",
+									"index": 312,
+									"init": 0.18,
+									"min": 0,
+									"max": 2,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "noise_level",
+									"varname": "fHslider69",
+									"shortname": "noise_level",
+									"address": "/Aether/Voice/Engines/noise_level",
+									"index": 376,
+									"init": 0.025,
+									"min": 0,
+									"max": 0.5,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "pulse_width",
+									"varname": "fHslider59",
+									"shortname": "pulse_width",
+									"address": "/Aether/Voice/Engines/pulse_width",
+									"index": 320,
+									"init": 0.42,
+									"min": 0.08,
+									"max": 0.92,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "ring_mod",
+									"varname": "fHslider72",
+									"shortname": "ring_mod",
+									"address": "/Aether/Voice/Engines/ring_mod",
+									"index": 380,
+									"init": 0,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "sub_level",
+									"varname": "fHslider68",
+									"shortname": "sub_level",
+									"address": "/Aether/Voice/Engines/sub_level",
+									"index": 368,
+									"init": 0.25,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "va_level",
+									"varname": "fHslider0",
+									"shortname": "va_level",
+									"address": "/Aether/Voice/Engines/va_level",
+									"index": 308,
+									"init": 0.72,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								}
+							]
+						},
+						{
+							"type": "vgroup",
+							"label": "Envelopes",
+							"meta": [
+								{ "2": "" }
+							],
+							"items": [ 
+								{
+									"type": "hslider",
+									"label": "amp_attack",
+									"varname": "fHslider79",
+									"shortname": "amp_attack",
+									"address": "/Aether/Voice/Envelopes/amp_attack",
+									"index": 392,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.025,
+									"min": 0.001,
+									"max": 5,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "amp_decay",
+									"varname": "fHslider81",
+									"shortname": "amp_decay",
+									"address": "/Aether/Voice/Envelopes/amp_decay",
+									"index": 400,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.45,
+									"min": 0.005,
+									"max": 5,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "amp_release",
+									"varname": "fHslider82",
+									"shortname": "amp_release",
+									"address": "/Aether/Voice/Envelopes/amp_release",
+									"index": 412,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.9,
+									"min": 0.005,
+									"max": 8,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "amp_sustain",
+									"varname": "fHslider80",
+									"shortname": "amp_sustain",
+									"address": "/Aether/Voice/Envelopes/amp_sustain",
+									"index": 396,
+									"init": 0.65,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "filter_attack",
+									"varname": "fHslider10",
+									"shortname": "filter_attack",
+									"address": "/Aether/Voice/Envelopes/filter_attack",
+									"index": 200,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.012,
+									"min": 0.001,
+									"max": 4,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "filter_decay",
+									"varname": "fHslider12",
+									"shortname": "filter_decay",
+									"address": "/Aether/Voice/Envelopes/filter_decay",
+									"index": 208,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.65,
+									"min": 0.005,
+									"max": 6,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "filter_release",
+									"varname": "fHslider13",
+									"shortname": "filter_release",
+									"address": "/Aether/Voice/Envelopes/filter_release",
+									"index": 404,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 0.7,
+									"min": 0.005,
+									"max": 8,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "filter_sustain",
+									"varname": "fHslider11",
+									"shortname": "filter_sustain",
+									"address": "/Aether/Voice/Envelopes/filter_sustain",
+									"index": 204,
+									"init": 0.18,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "mod_decay",
+									"varname": "fHslider14",
+									"shortname": "mod_decay",
+									"address": "/Aether/Voice/Envelopes/mod_decay",
+									"index": 244,
+									"meta": [
+										{ "unit": "s" }
+									],
+									"init": 1.2,
+									"min": 0.005,
+									"max": 8,
+									"step": 0.001
+								}
+							]
+						},
+						{
+							"type": "vgroup",
+							"label": "Filter",
+							"meta": [
+								{ "3": "" }
+							],
+							"items": [ 
+								{
+									"type": "hslider",
+									"label": "cutoff",
+									"varname": "fHslider74",
+									"shortname": "cutoff",
+									"address": "/Aether/Voice/Filter/cutoff",
+									"index": 176,
+									"meta": [
+										{ "scale": "log" },
+										{ "unit": "Hz" }
+									],
+									"init": 1800,
+									"min": 30,
+									"max": 18000,
+									"step": 1
+								},
+								{
+									"type": "hslider",
+									"label": "filter_env_octaves",
+									"varname": "fHslider76",
+									"shortname": "filter_env_octaves",
+									"address": "/Aether/Voice/Filter/filter_env_octaves",
+									"index": 188,
+									"init": 3,
+									"min": 0,
+									"max": 7,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "filter_type",
+									"varname": "fHslider73",
+									"shortname": "filter_type",
+									"address": "/Aether/Voice/Filter/filter_type",
+									"index": 168,
+									"meta": [
+										{ "tooltip": "0=ladder 1=bandpass 2=highpass" }
+									],
+									"init": 0,
+									"min": 0,
+									"max": 2,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "keytrack",
+									"varname": "fHslider75",
+									"shortname": "keytrack",
+									"address": "/Aether/Voice/Filter/keytrack",
+									"index": 180,
+									"init": 0.5,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "resonance",
+									"varname": "fHslider78",
+									"shortname": "resonance",
+									"address": "/Aether/Voice/Filter/resonance",
+									"index": 384,
+									"init": 0.35,
+									"min": 0,
+									"max": 0.92,
+									"step": 0.001
+								}
+							]
+						},
+						{
+							"type": "vgroup",
+							"label": "Modulation",
+							"meta": [
+								{ "4": "" }
+							],
+							"items": [ 
+								{
+									"type": "vgroup",
+									"label": "Route 0",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider3",
+											"shortname": "Route_0_depth",
+											"address": "/Aether/Voice/Modulation/Route_0/depth",
+											"index": 212,
+											"init": 0.12,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider2",
+											"shortname": "Route_0_destination",
+											"address": "/Aether/Voice/Modulation/Route_0/destination",
+											"index": 128,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 2,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider35",
+											"shortname": "Route_0_source",
+											"address": "/Aether/Voice/Modulation/Route_0/source",
+											"index": 12,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 1,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 1",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider37",
+											"shortname": "Route_1_depth",
+											"address": "/Aether/Voice/Modulation/Route_1/depth",
+											"index": 264,
+											"init": 0.009,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider36",
+											"shortname": "Route_1_destination",
+											"address": "/Aether/Voice/Modulation/Route_1/destination",
+											"index": 136,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 1,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider38",
+											"shortname": "Route_1_source",
+											"address": "/Aether/Voice/Modulation/Route_1/source",
+											"index": 80,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 2,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 2",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider40",
+											"shortname": "Route_2_depth",
+											"address": "/Aether/Voice/Modulation/Route_2/depth",
+											"index": 268,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider39",
+											"shortname": "Route_2_destination",
+											"address": "/Aether/Voice/Modulation/Route_2/destination",
+											"index": 140,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider41",
+											"shortname": "Route_2_source",
+											"address": "/Aether/Voice/Modulation/Route_2/source",
+											"index": 84,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 3",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider43",
+											"shortname": "Route_3_depth",
+											"address": "/Aether/Voice/Modulation/Route_3/depth",
+											"index": 272,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider42",
+											"shortname": "Route_3_destination",
+											"address": "/Aether/Voice/Modulation/Route_3/destination",
+											"index": 144,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider44",
+											"shortname": "Route_3_source",
+											"address": "/Aether/Voice/Modulation/Route_3/source",
+											"index": 88,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 4",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider46",
+											"shortname": "Route_4_depth",
+											"address": "/Aether/Voice/Modulation/Route_4/depth",
+											"index": 276,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider45",
+											"shortname": "Route_4_destination",
+											"address": "/Aether/Voice/Modulation/Route_4/destination",
+											"index": 148,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider47",
+											"shortname": "Route_4_source",
+											"address": "/Aether/Voice/Modulation/Route_4/source",
+											"index": 92,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 5",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider49",
+											"shortname": "Route_5_depth",
+											"address": "/Aether/Voice/Modulation/Route_5/depth",
+											"index": 280,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider48",
+											"shortname": "Route_5_destination",
+											"address": "/Aether/Voice/Modulation/Route_5/destination",
+											"index": 152,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider50",
+											"shortname": "Route_5_source",
+											"address": "/Aether/Voice/Modulation/Route_5/source",
+											"index": 96,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 6",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider52",
+											"shortname": "Route_6_depth",
+											"address": "/Aether/Voice/Modulation/Route_6/depth",
+											"index": 284,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider51",
+											"shortname": "Route_6_destination",
+											"address": "/Aether/Voice/Modulation/Route_6/destination",
+											"index": 156,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider53",
+											"shortname": "Route_6_source",
+											"address": "/Aether/Voice/Modulation/Route_6/source",
+											"index": 100,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "vgroup",
+									"label": "Route 7",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "depth",
+											"varname": "fHslider55",
+											"shortname": "Route_7_depth",
+											"address": "/Aether/Voice/Modulation/Route_7/depth",
+											"index": 288,
+											"init": 0,
+											"min": -1,
+											"max": 1,
+											"step": 0.001
+										},
+										{
+											"type": "hslider",
+											"label": "destination",
+											"varname": "fHslider54",
+											"shortname": "Route_7_destination",
+											"address": "/Aether/Voice/Modulation/Route_7/destination",
+											"index": 160,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'Pitch':1;'Filter':2;'FM index':3;'Waveform':4;'Pan':5;'Amplitude':6}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 6,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "source",
+											"varname": "fHslider56",
+											"shortname": "Route_7_source",
+											"address": "/Aether/Voice/Modulation/Route_7/source",
+											"index": 104,
+											"meta": [
+												{ "style": "menu{'Disabled':0;'LFO 1':1;'LFO 2':2;'Filter env':3;'Mod env':4;'Velocity':5;'Sequencer':6;'Macro 1':7;'Macro 2':8}" }
+											],
+											"init": 0,
+											"min": 0,
+											"max": 8,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "hslider",
+									"label": "lfo1_hz",
+									"varname": "fHslider4",
+									"shortname": "lfo1_hz",
+									"address": "/Aether/Voice/Modulation/lfo1_hz",
+									"index": 216,
+									"init": 0.31,
+									"min": 0.01,
+									"max": 25,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "lfo2_hz",
+									"varname": "fHslider5",
+									"shortname": "lfo2_hz",
+									"address": "/Aether/Voice/Modulation/lfo2_hz",
+									"index": 220,
+									"init": 4.7,
+									"min": 0.01,
+									"max": 30,
+									"step": 0.01
+								},
+								{
+									"type": "hslider",
+									"label": "macro1",
+									"varname": "fHslider33",
+									"shortname": "macro1",
+									"address": "/Aether/Voice/Modulation/macro1",
+									"index": 256,
+									"init": 0,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "macro2",
+									"varname": "fHslider34",
+									"shortname": "macro2",
+									"address": "/Aether/Voice/Modulation/macro2",
+									"index": 260,
+									"init": 0,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "stereo_spread",
+									"varname": "fHslider60",
+									"shortname": "stereo_spread",
+									"address": "/Aether/Voice/Modulation/stereo_spread",
+									"index": 328,
+									"init": 0.72,
+									"min": 0,
+									"max": 1,
+									"step": 0.001
+								},
+								{
+									"type": "hslider",
+									"label": "velocity_cutoff_octaves",
+									"varname": "fHslider77",
+									"shortname": "velocity_cutoff_octaves",
+									"address": "/Aether/Voice/Modulation/velocity_cutoff_octaves",
+									"index": 292,
+									"init": 1.2,
+									"min": 0,
+									"max": 4,
+									"step": 0.01
+								}
+							]
+						},
+						{
+							"type": "vgroup",
+							"label": "Sequencer",
+							"meta": [
+								{ "5": "" }
+							],
+							"items": [ 
+								{
+									"type": "vgroup",
+									"label": "Steps",
+									"items": [ 
+										{
+											"type": "hslider",
+											"label": "note_0",
+											"varname": "fHslider16",
+											"shortname": "note_0",
+											"address": "/Aether/Voice/Sequencer/Steps/note_0",
+											"index": 16,
+											"init": 0,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_1",
+											"varname": "fHslider17",
+											"shortname": "note_1",
+											"address": "/Aether/Voice/Sequencer/Steps/note_1",
+											"index": 20,
+											"init": 7,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_10",
+											"varname": "fHslider26",
+											"shortname": "note_10",
+											"address": "/Aether/Voice/Sequencer/Steps/note_10",
+											"index": 56,
+											"init": 19,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_11",
+											"varname": "fHslider27",
+											"shortname": "note_11",
+											"address": "/Aether/Voice/Sequencer/Steps/note_11",
+											"index": 60,
+											"init": 12,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_12",
+											"varname": "fHslider28",
+											"shortname": "note_12",
+											"address": "/Aether/Voice/Sequencer/Steps/note_12",
+											"index": 64,
+											"init": 3,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_13",
+											"varname": "fHslider29",
+											"shortname": "note_13",
+											"address": "/Aether/Voice/Sequencer/Steps/note_13",
+											"index": 68,
+											"init": 10,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_14",
+											"varname": "fHslider30",
+											"shortname": "note_14",
+											"address": "/Aether/Voice/Sequencer/Steps/note_14",
+											"index": 72,
+											"init": 7,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_15",
+											"varname": "fHslider31",
+											"shortname": "note_15",
+											"address": "/Aether/Voice/Sequencer/Steps/note_15",
+											"index": 76,
+											"init": -5,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_2",
+											"varname": "fHslider18",
+											"shortname": "note_2",
+											"address": "/Aether/Voice/Sequencer/Steps/note_2",
+											"index": 24,
+											"init": 12,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_3",
+											"varname": "fHslider19",
+											"shortname": "note_3",
+											"address": "/Aether/Voice/Sequencer/Steps/note_3",
+											"index": 28,
+											"init": 3,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_4",
+											"varname": "fHslider20",
+											"shortname": "note_4",
+											"address": "/Aether/Voice/Sequencer/Steps/note_4",
+											"index": 32,
+											"init": 0,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_5",
+											"varname": "fHslider21",
+											"shortname": "note_5",
+											"address": "/Aether/Voice/Sequencer/Steps/note_5",
+											"index": 36,
+											"init": 10,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_6",
+											"varname": "fHslider22",
+											"shortname": "note_6",
+											"address": "/Aether/Voice/Sequencer/Steps/note_6",
+											"index": 40,
+											"init": 7,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_7",
+											"varname": "fHslider23",
+											"shortname": "note_7",
+											"address": "/Aether/Voice/Sequencer/Steps/note_7",
+											"index": 44,
+											"init": 15,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_8",
+											"varname": "fHslider24",
+											"shortname": "note_8",
+											"address": "/Aether/Voice/Sequencer/Steps/note_8",
+											"index": 48,
+											"init": 0,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										},
+										{
+											"type": "hslider",
+											"label": "note_9",
+											"varname": "fHslider25",
+											"shortname": "note_9",
+											"address": "/Aether/Voice/Sequencer/Steps/note_9",
+											"index": 52,
+											"init": 7,
+											"min": -24,
+											"max": 24,
+											"step": 1
+										}
+									]
+								},
+								{
+									"type": "hslider",
+									"label": "bpm",
+									"varname": "fHslider8",
+									"shortname": "bpm",
+									"address": "/Aether/Voice/Sequencer/bpm",
+									"index": 196,
+									"init": 112,
+									"min": 30,
+									"max": 240,
+									"step": 0.1
+								},
+								{
+									"type": "hslider",
+									"label": "sequence_octaves",
+									"varname": "fHslider32",
+									"shortname": "sequence_octaves",
+									"address": "/Aether/Voice/Sequencer/sequence_octaves",
+									"index": 252,
+									"init": 1,
+									"min": 0,
+									"max": 3,
+									"step": 1
+								},
+								{
+									"type": "checkbox",
+									"label": "sequencer",
+									"varname": "fCheckbox7",
+									"shortname": "sequencer",
+									"address": "/Aether/Voice/Sequencer/sequencer",
+									"index": 124
+								},
+								{
+									"type": "hslider",
+									"label": "step_gate",
+									"varname": "fHslider9",
+									"shortname": "step_gate",
+									"address": "/Aether/Voice/Sequencer/step_gate",
+									"index": 8,
+									"init": 0.7,
+									"min": 0.1,
+									"max": 0.98,
+									"step": 0.001
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "hslider",
+					"label": "freq",
+					"varname": "fHslider57",
+					"shortname": "freq",
+					"address": "/Aether/freq",
+					"index": 184,
+					"meta": [
+						{ "scale": "log" },
+						{ "unit": "Hz" }
+					],
+					"init": 110,
+					"min": 20,
+					"max": 20000,
+					"step": 0.01
+				},
+				{
+					"type": "hslider",
+					"label": "gain",
+					"varname": "fHslider15",
+					"shortname": "gain",
+					"address": "/Aether/gain",
+					"index": 108,
+					"init": 0.7,
+					"min": 0,
+					"max": 1,
+					"step": 0.001
+				},
+				{
+					"type": "button",
+					"label": "gate",
+					"varname": "fButton6",
+					"shortname": "gate",
+					"address": "/Aether/gate",
+					"index": 4
+				}
+			]
+		}
+	]
+}
