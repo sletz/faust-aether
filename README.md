@@ -6,6 +6,8 @@ a 16-step sequencer, and a stereo effects bus. No samples or external plugins.
 The project includes source code, six presets, demo renders, and reproducible
 offline tests with **faustprobe**.
 
+**Play it in the browser:** <https://sletz.github.io/faust-aether/web/>
+
 ![Aether web interface with presets, synthesis controls, and a virtual keyboard](docs/images/aether-interface.jpg)
 
 ## Listen and test
@@ -199,6 +201,11 @@ and the shared bus. This project does not include a complete Rust audio host.
 Generated files, renders, and test results are ignored by Git.
 
 ## Web version
+
+A build is published on GitHub Pages:
+<https://sletz.github.io/faust-aether/web/>. It is served from the
+`gh-pages` branch, which holds only `web/` (with the compiled `dsp/` modules)
+and `presets/patches.json`; it is updated by hand after `make web`.
 
 ```sh
 make web                      # compile voice + stereo bus to WebAssembly
